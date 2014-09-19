@@ -177,7 +177,7 @@ lowLag.msg('webkitAudio loading '+url+' as tag ' + tag);
 		lowLag.msg("Error loading webkitAudio: "+e);
 	}
 
-	this.playSoundWebkitAudio= function(tag){
+	this.playSoundWebkitAudio= function(tag, onended){
 		lowLag.msg("playSoundWebkitAudio "+tag);
 		var buffer = lowLag.webkitAudioBuffers[tag];
 		if(buffer == undefined) { //possibly not loaded; put in a request to play onload
@@ -186,6 +186,7 @@ lowLag.msg('webkitAudio loading '+url+' as tag ' + tag);
 		}
 		var context = lowLag.webkitAudioContext;
 		var source = context.createBufferSource(); // creates a sound source
+                source.onended = onended;
 		source.buffer = buffer;                    // tell the source which sound to play
 		source.connect(context.destination);       // connect the source to the context's destination (the speakers)
 		if (typeof(source.noteOn) == "function") {
